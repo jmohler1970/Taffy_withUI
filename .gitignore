@@ -1,7 +1,7 @@
 .DS_Store
 
-video*.txt
 
-db_setup_delete/
+
+db_setup/
 formutils
 taffy

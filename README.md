@@ -3,12 +3,12 @@
 
 This code covers
 
-Taffy for REST: Part 4 Access Tokens with some real simple authentication
-Taffy for REST: Part 5 CAPTCHA
-Taffy for REST: Part 6 VueJS
+* Taffy for REST: Part 4 Access Tokens with some real simple authentication
+* Taffy for REST: Part 5 CAPTCHA
+* Taffy for REST: Part 6 VueJS
 
 
-For part 6
+# For part 6
 
 Change server.json to:
 
@@ -25,10 +25,10 @@ Change server.json to:
     }
 }
 
-#Video 4
+# Video 4
 
 
-#Quick Overview
+# Quick Overview
 
 # Commandbox
 
