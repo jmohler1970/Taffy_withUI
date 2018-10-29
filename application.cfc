@@ -1,4 +1,3 @@
-<cfscript>
 component extends="taffy.core.api"  {
 
 this.name = "taffy_21";
@@ -42,19 +41,50 @@ function onTaffyRequest(verb, cfc, requestArguments, mimeExt, headers, methodMet
 			}).withStatus(401);
 	}
 
-	if (application.config.loginTokenRequired.findNoCase(arguments.matchedURI))	{
+	// I need a login token and I don't have it.
+	if (application.config.loginTokenRequired.findNoCase(arguments.matchedURI) && !arguments.headers.keyExists("loginToken"))	{
 		return rep(
 			{'status' : 'error','time' : GetHttpTimeString(now()),
 			'messages' : ['<b>Error:</b> You must provide a loginToken to perform this operation.']
 			}).withStatus(403);
-
 	}
 
-	return rep({"matchedURI" : arguments.matchedURI});
+	
 
-	//api key found and is valid
+	// I need a login token and the current one is expired.
+	if (application.config.loginTokenRequired.findNoCase(arguments.matchedURI))	{
+
+		// I need a login token and I don't have it.
+		if (arguments.headers.loginToken == "")	{
+		return rep(
+			{'status' : 'error','time' : GetHttpTimeString(now()),
+			'messages' : ['<b>Error:</b> You must provide a loginToken that is not blank.']
+			}).withStatus(403);
+		}
+
+		var Login = EntityLoad("Users", { loginToken : arguments.headers.loginToken }, true);
+
+		if (isNull(Login))	{
+			return rep(
+				{'status' : 'error','time' : GetHttpTimeString(now()),
+				'messages' : ['<b>Error:</b> You must provide a loginToken that is valid.']
+				}).withStatus(401);
+		}
+
+		// comparing my minutes
+		if (Login.getTokenCreateDate().DateAdd("n", application.config.TokenExpiration).compare(now(), "n") < 0 )	{
+			return rep(
+				{'status' : 'error','time' : GetHttpTimeString(now()),
+				'messages' : ['<b>Error:</b> Your token has expired. Login again.']
+				}).withStatus(403);
+		}
+
+		return rep(
+			{'status' : 'error','time' : GetHttpTimeString(now()),
+			'messages' : ['<b>Error:</b> You must provide a loginToken to perform this operation.']
+			}).withStatus(403);
+	}
+
+	return true;
 }
 }
-
-
-</cfscript>

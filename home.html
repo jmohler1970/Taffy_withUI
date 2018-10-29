@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Taffy for REST</title>
+
+	<link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" crossorigin="anonymous">
+
+	<script src="https://unpkg.com/vue@2.5.17"></script>
+	<script src="https://unpkg.com/buefy@0.6.7"></script>
+	<script src="https://unpkg.com/axios@0.18.0/dist/axios.min.js"></script>
+
+</head>
+<body>
+
+
+<div id="app">
+<v-app id="inspire">
+	<v-container grid-list-xl>
+	<v-layout row wrap>
+
+		<v-flex offset-xs3 xs6>
+			<v-alert v-for="message in messages" :type="message.type" :value="true">
+				<span v-html="message.content"></span>
+			</v-alert>
+		</v-flex>
+	
+
+		<v-flex>
+			<v-card>
+				<v-card-title primary-title>
+					<h3 class="headline mb-0">Reset Password</h3>
+				</v-card-title>
+	
+				<v-card-text>
+					<v-text-field
+						v-model.trim="email"
+						label="Email"
+						id="email"
+						prepend-icon="contact_mail"
+						>
+					</v-text-field>
+	
+					<v-card-media :src="captcha_image" height="100px"></v-card-media>
+	
+					{{captcha_hash}}
+	
+					<v-text-field
+						v-model.trim="captcha"
+						label="CAPTCHA"
+						id="captcha"
+						prepend-icon="code"
+						>
+					</v-text-field>
+	
+	
+				<v-card-actions>
+					<v-btn id="reload" @click="go"><v-icon>refresh</v-icon></v-btn>
+					<v-spacer></v-spacer>
+					<v-btn @click="submit" color="primary"	:disabled="!stateEmail && !stateCaptcha">Send</v-btn>
+				</v-card-actions>
+	
+			</v-card>
+		</v-flex>
+
+	</v-layout>
+	</v-container>
+</v-app>
+</div>
+
+
+<script>
+
+const http = axios.create({
+	baseURL: 'index.cfm?endpoint=/',
+	timeout: 1000,
+	headers: {'apiKey': 'hawkfeedflaw'}
+	});
+
+
+new Vue({
+	el: '#app',
+
+	data () {
+		return {
+			messages 		: [],
+			users 		: [],
+
+			email 		: '',
+			password 		: '',
+			captcha_image 	: '',
+			captcha_hash 	: '',
+			captcha 		: ''
+			};
+		},
+
+
+
+	computed: {
+
+		invalidEmail 	()	{
+			if (this.email.length == 0)			{ return 'Enter an email' 					}
+			else if (this.email.length <= 4)		{ return 'This is too short to be a valid email'	}
+			else if (!this.email.includes("@"))	{ return 'Email must include an @'				}
+			else 							{ return '' 								}
+			},
+		stateEmail 	()	{ return (this.email.includes("@") && this.email.length) > 4 ? true : false },
+
+		invalidCaptcha ()	{
+			if (this.captcha.length > 4)			{ return '' 						}
+			else if (this.captcha.length > 0)		{ return 'Enter at least 4 characters'	}
+			else 							{ return 'Enter the characters/numbers displayed in the image above.' 		}
+			},
+		validCaptcha	()	{ return this.state === true ? 'Thank you' : ''},
+
+		stateCaptcha	()	{ return this.captcha.length >= 4 ? true : false }
+		},
+
+	mounted(){
+		this.go();
+		},
+
+	methods :	{
+		go : function() {http
+				.get("captcha")
+				.then(res => {this.captcha_image = res.data.captcha_image, this.captcha_hash = res.data.captcha_hash})
+				.catch(function (error) { console.log(error); })
+				;
+
+			},
+
+		submit : function()	{
+			http
+				.post("login/recovery", { email : this.email, captcha : this.captcha, captcha_hash : this.captcha_hash })
+				.then(res => (this.messages = res.data.messages))
+				.catch(function (error) { console.log(error.response); })
+				;
+			}
+
+		} // end methods
+
+	});
+</script>
+
+
+</body>
+</html>

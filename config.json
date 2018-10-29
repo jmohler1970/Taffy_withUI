@@ -1,5 +1,6 @@
 {
 	"apikey" 			: "hawkfeedflaw",
 	"hash_algorithm" 	: "SHA-384",
-	"loginTokenRequired" : ["/users", "/users/{id}"]	
+	"loginTokenRequired" : ["/users", "/users/{id}"],
+	"TokenExpiration" : 60
 }

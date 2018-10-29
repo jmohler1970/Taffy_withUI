@@ -9,6 +9,7 @@ property name="lastname" 		default = '';
 property name="email";
 property name="passhash";
 property name="loginToken";
+property name="TokenCreateDate";
 
 property name="deleted"			default = 0;
 

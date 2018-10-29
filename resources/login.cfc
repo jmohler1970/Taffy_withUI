@@ -6,7 +6,11 @@ function put(required string password)	{
 }
 
 
-function post(required string email, required string password){
+function post(required string email, required string password, required string captcha, required string captcha_hash){
+
+	if (hash(arguments.captcha, application.Config.hash_algorithm) != arguments.captcha_hash)	{
+		return rep({'status' : 'failure', 'time' : GetHttpTimeString(now()) 	}).withStatus(404);
+		}
 
 	var User = entityLoad("Users", {email : arguments.email, password = hash(arguments.password, application.Config.hash_algorithm)}, true );
 
