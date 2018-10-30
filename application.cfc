@@ -30,14 +30,14 @@ function onTaffyRequest(verb, cfc, requestArguments, mimeExt, headers, methodMet
 	if(!arguments.headers.keyExists("apiKey")){
 		return rep(
 			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : ['<b>Error:</b> Missing header apiKey.']
+			'messages' : '<b>Error:</b> Missing header apiKey.'
 			}).withStatus(401);
 	}
 
 	if (arguments.headers.apiKey != application.Config.apiKey) {
 		return rep(
 			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : ['<b>Error:</b> apiKey is invalid.']
+			'messages' : '<b>Error:</b> apiKey is invalid.'
 			}).withStatus(401);
 	}
 
@@ -45,7 +45,7 @@ function onTaffyRequest(verb, cfc, requestArguments, mimeExt, headers, methodMet
 	if (application.config.loginTokenRequired.findNoCase(arguments.matchedURI) && !arguments.headers.keyExists("loginToken"))	{
 		return rep(
 			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : ['<b>Error:</b> You must provide a loginToken to perform this operation.']
+			'messages' : '<b>Error:</b> You must provide a loginToken to perform this operation. Headers: #arguments.headers.keyList()#'
 			}).withStatus(403);
 	}
 
@@ -58,7 +58,7 @@ function onTaffyRequest(verb, cfc, requestArguments, mimeExt, headers, methodMet
 		if (arguments.headers.loginToken == "")	{
 		return rep(
 			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : ['<b>Error:</b> You must provide a loginToken that is not blank.']
+			'messages' : '<b>Error:</b> You must provide a loginToken that is not blank.'
 			}).withStatus(403);
 		}
 
@@ -67,22 +67,17 @@ function onTaffyRequest(verb, cfc, requestArguments, mimeExt, headers, methodMet
 		if (isNull(Login))	{
 			return rep(
 				{'status' : 'error','time' : GetHttpTimeString(now()),
-				'messages' : ['<b>Error:</b> You must provide a loginToken that is valid.']
+				'messages' : '<b>Error:</b> You must provide a loginToken that is valid. #arguments.headers.loginToken#'
 				}).withStatus(401);
 		}
 
 		// comparing my minutes
-		if (Login.getTokenCreateDate().DateAdd("n", application.config.TokenExpiration).compare(now(), "n") < 0 )	{
+		if (Login.getTokenCreateDate().add("n", application.config.TokenExpiration).compare(now(), "n") < 0 )	{
 			return rep(
 				{'status' : 'error','time' : GetHttpTimeString(now()),
 				'messages' : ['<b>Error:</b> Your token has expired. Login again.']
 				}).withStatus(403);
 		}
-
-		return rep(
-			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : ['<b>Error:</b> You must provide a loginToken to perform this operation.']
-			}).withStatus(403);
 	}
 
 	return true;

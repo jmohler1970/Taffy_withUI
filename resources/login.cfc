@@ -8,25 +8,34 @@ function put(required string password)	{
 
 function post(required string email, required string password, required string captcha, required string captcha_hash){
 
+
+	// remove this code once system is up and running
+	var User = entityLoad("Users", {email : arguments.email}, true);
+
+	/*
 	if (hash(arguments.captcha, application.Config.hash_algorithm) != arguments.captcha_hash)	{
 		return rep({'status' : 'failure', 'time' : GetHttpTimeString(now()) 	}).withStatus(404);
 		}
 
-	var User = entityLoad("Users", {email : arguments.email, password = hash(arguments.password, application.Config.hash_algorithm)}, true );
+	var User = entityLoad("Users", {email : arguments.email, passhash = hash(arguments.password, application.Config.hash_algorithm)}, true );
+	*/
 
 	if(isNull(User))	{
 		return rep(
 			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : ['<b>Error:</b> Email/Password is not valid.']
+			'messages' : ['<b>Error:</b> Email/Password is not valid. There were #User.len()# matches']
 			}).withStatus(401);
 		}
 
 	var loginToken = createUUID();
 
-	User.setLoginToken(loginToken);
+	User.setLoginToken(loginToken)
+		.setTokenCreateDate(now());
 	EntitySave(User);
 
-	return rep({ "loginToken" : loginToken });
+	return rep({'status' : 'success', messages : '<b>Success:</b> You have logged in.',  "loginToken" : loginToken });
 	}
 
 }
+
+//Oct 29 loginToken: 9CC770B2-A62A-BEF0-7132C353C8483865

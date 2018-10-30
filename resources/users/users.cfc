@@ -16,10 +16,13 @@ function get(){
 			"deleted"		: User.getDeleted()
 			});
 		}
-	return rep(Result);
+	return rep({'status' : 'success','time' : GetHttpTimeString(now()),
+		'messages' : '<b>Success:</b> User has been created.',
+		'users' : Result
+		});
 	}
 
-function put(
+function post(
 	required string firstname, 
 	required string lastname,
 	required string email,
@@ -64,7 +67,7 @@ function put(
 	ORMFlush();
 
 	return rep({'status' : 'success','time' : GetHttpTimeString(now()),
-		'messages' : ['<b>Success:</b> User has been created.']
+		'messages' : '<b>Success:</b> User has been created.'
 		});
 	}
 

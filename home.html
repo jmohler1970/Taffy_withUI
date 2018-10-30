@@ -17,6 +17,63 @@
 
 <div id="app">
 
+	<section class="hero is-info" style="border-bottom : 1px solid white;">
+		<div class="hero-body">
+			<div class="container">
+				<h1 class="title">
+					Taffy for REST
+				</h1>
+				<h2 class="subtitle">
+					By James Mohler
+				</h2>
+			</div>
+		</div>
+	</section>
+
+	<nav class="navbar is-info" role="navigation" aria-label="main navigation">
+		<div class="navbar-brand">
+			<a class="navbar-item" href="https://taffy.io">
+				Taffy
+			</a>
+
+			<a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+				<span aria-hidden="true" class="has-text-white"></span>
+				<span aria-hidden="true" class="has-text-white"></span>
+				<span aria-hidden="true" class="has-text-white"></span>
+			</a>
+		</div>
+		
+		<div id="navbarBasicExample" class="navbar-menu">
+			<div class="navbar-start">
+				<a class="navbar-item">
+					Home
+				</a>
+
+			<a class="navbar-item">
+				Github
+			</a>
+			<a class="navbar-item" href="index.cfm">
+				Dashboard
+			</a>
+
+			</div>
+			<div class="navbar-end">
+				<div class="navbar-item">
+					<div class="buttons">
+						<a class="button is-info">
+							<strong>Logout</strong>
+						</a>
+						<a class="button is-info">
+							Log in
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+
+
 	<section class="section">
 		<div class="container">
 
@@ -39,7 +96,7 @@
 				<div class="column">
 	
 					<div class="card">
-						<header class="card-header has-background-primary">
+						<header class="card-header has-background-info">
 							<p class="card-header-title has-text-white">
 								Login
 							</p>
@@ -58,11 +115,12 @@
 							<b-field label="Password" :message="invalidPassword">
 								<b-input
 									v-model.trim="password"
+									type="password"
 									id="password"
 									>
 								</b-input>
 							</b-field>
-	
+
 
 							<img :src="captcha_image" style="height : 100px;" />
 
@@ -78,7 +136,7 @@
 	
 							<button type="button" id="reload" @click="go" class="button is-light"><b-icon pack="fas" icon="sync-alt"></b-icon></button>
 
-							<button type="button" @click="submit" class="button is-primary is-pulled-right"	:disabled="!stateEmail && !stateCaptcha">Login</button>
+							<button type="button" @click="login" class="button is-info is-pulled-right"	:disabled="!stateEmail && !stateCaptcha">Login</button>
 						</div><!--/ card content -->
 					</div><!--/ card -->
 				</div><!--/ column-->
@@ -88,13 +146,52 @@
 			</div><!--/ columns -->
 
 		</div><!-- container -->
-	</div><!--/ section -->
+	</section>
 
+
+
+
+	<section class="section">
+		<div class="container">
+	
+			<div class="columns">
+				<div class="column">
+
+				<button type="button" class="button is-light" @click="getUsers">Get Users</button>
+
+		<b-table :data="users">
+			<template slot-scope="props">
+				<b-table-column field="firstname" label="First Name">
+					{{ props.row.firstName }}
+				</b-table-column>
+
+				<b-table-column field="lastname" label="Last Name">
+					{{ props.row.lastName }}
+				</b-table-column>
+
+				<b-table-column field="email" label="Email">
+					{{ props.row.email }}
+				</b-table-column>
+
+				<b-table-column field="type" label="State / Province">
+					{{ props.row.stateProvinceId }}
+				</b-table-column>
+	
+				<b-table-column field="modified" label="Deleted">
+					{{ props.row.deleted }}
+				</b-table-column>
+			</template>
+		</b-table>
+
+				</div>
+			</div>
+		</div>
+
+	</section>
 </div>
 
 
-<script src="assets/app.js">
-</script>
+<script src="assets/app.js"></script>
 
 
 </body>
