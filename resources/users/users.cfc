@@ -1,7 +1,7 @@
 <cfscript>
 component extends="taffy.core.resource" taffy_uri="/users" {
 
-function get(){
+function get(string stateprovinceid = ""){
 
 	var Users = EntityLoad("Users", {}, "ID")
 
@@ -16,11 +16,13 @@ function get(){
 			"deleted"		: User.getDeleted()
 			});
 		}
-	return rep({'status' : 'success','time' : GetHttpTimeString(now()),
-		'messages' : '<b>Success:</b> User has been created.',
-		'users' : Result
+	return rep({
+		'status' : 'success',
+		'time' : GetHttpTimeString(now()),
+		'data' : Result
 		});
 	}
+
 
 function post(
 	required string firstname, 

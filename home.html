@@ -5,11 +5,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Taffy for REST</title>
 
-	<link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://unpkg.com/buefy@0.7.0/dist/buefy.min.css">
+	<link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css">
 
 	<script src="https://unpkg.com/vue@2.5.17"></script>
-	<script src="https://unpkg.com/buefy@0.6.7"></script>
+	<script src="https://unpkg.com/buefy@0.7.0"></script>
 	<script src="https://unpkg.com/axios@0.18.0/dist/axios.min.js"></script>
 </head>
 <body>
@@ -45,7 +45,7 @@
 		
 		<div id="navbarBasicExample" class="navbar-menu">
 			<div class="navbar-start">
-				<a class="navbar-item">
+				<a class="navbar-item" @click="router = 'welcome'">
 					Home
 				</a>
 
@@ -59,36 +59,69 @@
 			</div>
 			<div class="navbar-end">
 				<div class="navbar-item">
-					<div class="buttons">
-						<a class="button is-info">
-							<strong>Logout</strong>
-						</a>
-						<a class="button is-info">
-							Log in
-						</a>
-					</div>
+					<button class="button is-info" type="button" @click="listUser" v-if="login_token !== ''" :disabled="router === 'users'">
+						User Manager
+					</button>
+
+					<button class="button is-info" type="button" @click="logout" v-if="login_token !== ''">
+						<b>Logout</b>
+					</button>
+					<button class="button is-info" type="button" @click="router = 'prelogin'" v-else>
+						Log in
+					</button>
 				</div>
 			</div>
 		</div>
 	</nav>
 
+	<p>&nbsp;</p>
 
+	<section>
+		<div class="container">
+			<div class="columns">
+				<div class="column is-one-quarter">
+				</div>
+				<div class="column is-one-half">
+					<b-notification v-for="message in messages" :type="('is-' + message.type)" has-icon>
+						<span v-html="message.content"></span>
+					</b-notification>
+				</div>
+				<div class="column is-one-quarter">
+				</div>
+			</div>
+		</div>
+	</section>
 
-	<section class="section">
+	<section v-show="router === 'welcome'">
+
 		<div class="container">
 
 			<div class="columns">
-				<div class="column">
+				<div class="column is-one-quarter">
 				</div>
-				<div class="column">
-					<b-alert v-for="message in messages" :type="message.type" :value="true">
-						<span v-html="message.content"></span>
-					</b-alert>
+
+				<div class="column is-one-half">
+
+					<h1 class="is-size-3">Welcome</h1>
+
+					<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</p>
+
+					<button class="button is-info" type="button" @click="router = 'prelogin'">
+						Log in
+					</button>
 				</div>
-				<div class="column">
+
+				<div class="column is-one-quarter">
 				</div>
 			</div>
-	
+		</div>
+	</section>
+
+
+	<section class="section" v-show="login_token === '' &&  router === 'prelogin'">
+		<div class="container">
 
 			<div class="columns">
 				<div class="column">
@@ -134,7 +167,7 @@
 							</b-field>
 	
 	
-							<button type="button" id="reload" @click="go" class="button is-light"><b-icon pack="fas" icon="sync-alt"></b-icon></button>
+							<button type="button" id="reload" @click="prelogin" class="button is-light"><b-icon icon="refresh"></b-icon></button>
 
 							<button type="button" @click="login" class="button is-info is-pulled-right"	:disabled="!stateEmail && !stateCaptcha">Login</button>
 						</div><!--/ card content -->
@@ -151,16 +184,20 @@
 
 
 
-	<section class="section">
+	<section class="section" v-show="router === 'users'">
 		<div class="container">
 	
 			<div class="columns">
 				<div class="column">
 
-				<button type="button" class="button is-light" @click="getUsers">Get Users</button>
+				<button type="button" class="button is-light" @click="preAddUser"><b-icon icon="plus"></b-icon> &nbsp;Add Users</button>
 
 		<b-table :data="users">
 			<template slot-scope="props">
+				<b-table-column field="id" label="ID">
+					{{ props.row.id }}
+				</b-table-column>
+		
 				<b-table-column field="firstname" label="First Name">
 					{{ props.row.firstName }}
 				</b-table-column>
@@ -177,7 +214,13 @@
 					{{ props.row.stateProvinceId }}
 				</b-table-column>
 	
-				<b-table-column field="modified" label="Deleted">
+				<b-table-column field="modified">
+
+					<div class="buttons has-addons">
+						<button type="button" class="button">Edit</button>
+						<button type="button" class="button is-danger is-selected"><b-icon icon="trash-can"></b-icon></button>
+				   </div>
+
 					{{ props.row.deleted }}
 				</b-table-column>
 			</template>
@@ -186,8 +229,106 @@
 				</div>
 			</div>
 		</div>
-
 	</section>
+
+
+	<section v-show="router === 'usermodal'">
+		<div class="container">
+			<div class="columns">
+				<div class="column">
+				</div>
+				<div class="column">
+					<div class="card">
+						<header class="card-header has-background-info">
+							<p class="card-header-title has-text-white">
+								{{userModal.title}}
+							</p>
+						</header>
+
+						<div class="card-content">
+							<b-field label="First Name">
+								<b-input
+									type="text"
+									:value="user.firstName"
+									required>
+								</b-input>
+							</b-field>
+
+							<b-field label="Last Name">
+								<b-input
+									type="text"
+									:value="user.lastName"
+									required>
+								</b-input>
+							</b-field>
+
+							<b-field label="Email">
+								<b-input
+									type="email"
+									:value="user.email"
+									required>
+								</b-input>
+							</b-field>
+
+							<b-field label="Password">
+								<b-input
+									type="password"
+									:value="user.password">
+								</b-input>
+							</b-field>
+
+							<button type="button" class="button" @click="router = 'users'">Cancel</button>
+							<button type="button" class="button is-primary  is-pulled-right">{{userModal.actionLabel}}</button>
+						</div><!--/ card content-->
+					</div><!--/ card -->
+				</div>
+
+				<div class="column">
+				</div>
+			</div><!--/ columns -->
+		</div><!--/ container -->
+	</section>
+
+
+	<section class="section">
+		<div class="container">
+			<div class="columns">
+				<div class="column">
+					<h1 class="title">ColdFusion Resources</h1>
+					<ul>
+						<li><a href="https://www.adobe.com/products/coldfusion-family.html">Adobe ColdFusion</a></li>
+						<li><a href="https://tracker.adobe.com/">Adobe Issue Tracker</a></li>
+						<li><a href="https://coldfusion.adobe.com/">Offical Blog</a></li>
+						<li><a href="https://stackoverflow.com/questions/tagged/coldfusion">Stackoverflow: ColdFusion</a></li>
+					</ul>
+				</div>
+
+				<div class="column">
+					<h1 class="title">More Technology Resources</h1>
+					<p>All of these are used on this page</p>
+					<ul>
+						<li><a href="https://buefy.github.io/">Buetify</a></li>
+						<li><a href="https://vuejs.org/">VueJS</a></li>
+						<li><a href="https://github.com/axios/axios/">Axios</a></li>
+						<li><a href="https://bulma.io/">Bulma</a></li>
+						<li><a href="https://github.com/">Github</a></li>
+					</ul>
+				</div>
+
+				<div class="column">
+					<h1 class="title">About the Author</h1>
+
+					<p>James Mohler, that's me!</p>
+					<ul>
+						<li>ColdFusion.Adobe.com: <a href="https://coldfusion.adobe.com/profile/jamesmohler">https://coldfusion.adobe.com/profile/jamesmohler</a></li>
+						<li>GitHub: <a href="https://github.com/jmohler1970">https://github.com/jmohler1970</a></li>
+						<li>Stackoverflow: <a href="https://stackoverflow.com/users/1845869/james-a-mohler">https://stackoverflow.com/users/1845869/james-a-mohler</a></li>
+					</ul>
+				</div>
+			</div>
+		</div><!--/ container -->
+	</section>
+
 </div>
 
 

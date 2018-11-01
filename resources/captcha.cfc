@@ -1,13 +1,17 @@
 component extends="taffy.core.resource" taffy_uri="/login/captcha" {
 
-function get() {
 
-	var captcha	= CreateUUID().right(4) & DayOfWeekAsString(DayOfWeek(now())).left(1).lcase() & "!";
+
+function get(string complexity = "low") {
+
+	var captcha	= application.Config.CAPTCHA.mid(randrange(1, len(application.Config.CAPTCHA) - 4), 3)
+				& application.Config.CAPTCHA.mid(randrange(1, len(application.Config.CAPTCHA) - 4), 3);
+
 
 	// This is ColdFusion
 	var tempFile = "ram:///#captcha#.txt";
 
-	var myImage = ImageCreateCaptcha(100, 300, captcha, "low");
+	var myImage = ImageCreateCaptcha(100, 300, captcha, arguments.complexity);
 
 	ImageWriteBase64(myImage, tempFile, "png", true, true);
 

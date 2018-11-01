@@ -16,36 +16,37 @@ function onApplicationStart() output="false"	{
 
 	final application.Config = DeserializeJSON(FileRead(expandPath("./config.json"))); // If config.json is invalid, you are in big trouble
 
-	application.Util = new formutils.FormUtils().init();
-
 	return super.onApplicationStart();
 	}
 
 
 function onTaffyRequest(verb, cfc, requestArguments, mimeExt, headers, methodMetaData, matchedURI)	{
 
-	application.util.buildFormCollections(form);
-
-
 	if(!arguments.headers.keyExists("apiKey")){
-		return rep(
-			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : '<b>Error:</b> Missing header apiKey.'
+		return rep({
+			'status' 	: 'error',
+			'time' 	: GetHttpTimeString(now()),
+			'message_i18n' : 'KILL_CANT_CONTINUE',
+			'message' : '<b>Error:</b> Missing header apiKey.'
 			}).withStatus(401);
 	}
 
 	if (arguments.headers.apiKey != application.Config.apiKey) {
-		return rep(
-			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : '<b>Error:</b> apiKey is invalid.'
+		return rep({
+			'status' 	: 'error',
+			'time' 	: GetHttpTimeString(now()),
+			'message_i18n' : 'KILL_CANT_CONTINUE',
+			'message' : '<b>Error:</b> apiKey is invalid.'
 			}).withStatus(401);
 	}
 
 	// I need a login token and I don't have it.
-	if (application.config.loginTokenRequired.findNoCase(arguments.matchedURI) && !arguments.headers.keyExists("loginToken"))	{
-		return rep(
-			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : '<b>Error:</b> You must provide a loginToken to perform this operation. Headers: #arguments.headers.keyList()#'
+	if (application.config.loginTokenRequired.findNoCase(arguments.matchedURI) && !arguments.headers.keyExists("authorization"))	{
+		return rep({
+			'status' 	: 'error',
+			'time' 	: GetHttpTimeString(now()),
+			'message_i18n' : 'KILL_CANT_CONTINUE',
+			'message' : '<b>Error:</b> You must provide an authorization header to perform this operation.'
 			}).withStatus(403);
 	}
 
@@ -55,27 +56,33 @@ function onTaffyRequest(verb, cfc, requestArguments, mimeExt, headers, methodMet
 	if (application.config.loginTokenRequired.findNoCase(arguments.matchedURI))	{
 
 		// I need a login token and I don't have it.
-		if (arguments.headers.loginToken == "")	{
-		return rep(
-			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : '<b>Error:</b> You must provide a loginToken that is not blank.'
+		if (arguments.headers.authorization == "" || listfirst(arguments.headers.authorization, " ") != "bearer")	{
+		return rep({
+			'status' 	: 'error',
+			'time' 	: GetHttpTimeString(now()),
+			'message_i18n' : 'KILL_CANT_CONTINUE',
+			'message' : '<b>Error:</b> You must provide a authorization header that is not blank and starts with Bearer.'
 			}).withStatus(403);
 		}
 
-		var Login = EntityLoad("Users", { loginToken : arguments.headers.loginToken }, true);
+		var Login = EntityLoad("Users", { loginToken : listrest(arguments.headers.authorization, " ") }, true);
 
 		if (isNull(Login))	{
-			return rep(
-				{'status' : 'error','time' : GetHttpTimeString(now()),
-				'messages' : '<b>Error:</b> You must provide a loginToken that is valid. #arguments.headers.loginToken#'
+			return rep({
+				'status' 	: 'error',
+				'time' 	: GetHttpTimeString(now()),
+				'message_i18n' : 'KILL_CANT_CONTINUE',
+				'message' : '<b>Error:</b> You must provide a authorization that is valid.'
 				}).withStatus(401);
 		}
 
 		// comparing my minutes
 		if (Login.getTokenCreateDate().add("n", application.config.TokenExpiration).compare(now(), "n") < 0 )	{
-			return rep(
-				{'status' : 'error','time' : GetHttpTimeString(now()),
-				'messages' : ['<b>Error:</b> Your token has expired. Login again.']
+			return rep({
+				'status' 	: 'error',
+				'time' 	: GetHttpTimeString(now()),
+				'message_i18n' : 'KILL_CANT_CONTINUE',
+				'message' : '<b>Error:</b> Your token has expired. Login again.'
 				}).withStatus(403);
 		}
 	}
