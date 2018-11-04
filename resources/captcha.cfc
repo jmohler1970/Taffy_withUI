@@ -4,14 +4,19 @@ component extends="taffy.core.resource" taffy_uri="/login/captcha" {
 
 function get(string complexity = "low") {
 
-	var captcha	= application.Config.CAPTCHA.mid(randrange(1, len(application.Config.CAPTCHA) - 4), 3)
-				& application.Config.CAPTCHA.mid(randrange(1, len(application.Config.CAPTCHA) - 4), 3);
+	var CAPTCHAConf = application.Config.CAPTCHA;
+
+	var captcha = "";
+
+	for (var sliceLength in CAPTCHAConf.slices)	{
+		captcha	&= CAPTCHAConf.data.mid(randrange(1, len(CAPTCHAConf.data) - sliceLength), sliceLength);
+	}
 
 
 	// This is ColdFusion
 	var tempFile = "ram:///#captcha#.txt";
 
-	var myImage = ImageCreateCaptcha(100, 300, captcha, arguments.complexity);
+	var myImage = ImageCreateCaptcha(120, 360, captcha, arguments.complexity, "sansserif", 30);
 
 	ImageWriteBase64(myImage, tempFile, "png", true, true);
 
@@ -26,18 +31,22 @@ function get(string complexity = "low") {
 			'captcha_image' : myFile
 			}
 		});
-	}
+}
 
 // This is just for testing purposes
 function post(required string captcha, required string captcha_hash) hint="verifies results. It is more common to tied this in with contactus or resetpassword" {
 
-	if (hash(arguments.captcha) != arguments.captcha_hash)	{
-		return rep({'status' : 'failure', 'time' : GetHttpTimeString(now()) 	}).withStatus(404);
-		}
+	if (hash(arguments.captcha, application.Config.hash_algorithm) != arguments.captcha_hash)	{
+		return rep({
+			'message' : { 'type' : 'failure', 'content' : '<b>Failure</b>: CAPTCHA respone does not match' },
+			'time' : GetHttpTimeString(now())
+		}).withStatus(404);
+	}
 
 	return rep({
 		message : {'type' : 'success', 'content' : 'CAPTCHA is valid' },
 		'time' : GetHttpTimeString(now())
 		});
-	}
 }
+
+} // end component

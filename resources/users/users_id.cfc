@@ -35,7 +35,7 @@ function put(required numeric id,
 	var User = EntityLoadByPK("Users", arguments.id);
 
 	if (isNull(User))	{
-		return rep(
+		return rep({
 			'message' : {'status' : 'error', 'content' : '<b>Error:</b> Unable to find User.' },
 			'time' : GetHttpTimeString(now())
 			}).withStatus(401);

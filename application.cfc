@@ -24,44 +24,36 @@ function onTaffyRequest(verb, cfc, requestArguments, mimeExt, headers, methodMet
 
 	if(!arguments.headers.keyExists("apiKey")){
 		return rep({
-			'status' 	: 'error',
-			'time' 	: GetHttpTimeString(now()),
-			'message_i18n' : 'KILL_CANT_CONTINUE',
-			'message' : '<b>Error:</b> Missing header apiKey.'
+			'message' : { 'type' 	: 'error', 'content' : '<b>Error:</b> Missing header apiKey.' },
+			'time' 	: GetHttpTimeString(now())
 			}).withStatus(401);
 	}
 
 	if (arguments.headers.apiKey != application.Config.apiKey) {
 		return rep({
-			'status' 	: 'error',
-			'time' 	: GetHttpTimeString(now()),
-			'message_i18n' : 'KILL_CANT_CONTINUE',
-			'message' : '<b>Error:</b> apiKey is invalid.'
+			'message' : {'type' 	: 'error', 'content' :  '<b>Error:</b> apiKey is invalid.'},
+			'time' 	: GetHttpTimeString(now())
 			}).withStatus(401);
 	}
 
 	// I need a login token and I don't have it.
-	if (application.config.loginTokenRequired.findNoCase(arguments.matchedURI) && !arguments.headers.keyExists("authorization"))	{
+	if (!application.config.Token.NotRequired.findNoCase(arguments.matchedURI) && !arguments.headers.keyExists("authorization"))	{
 		return rep({
-			'status' 	: 'error',
-			'time' 	: GetHttpTimeString(now()),
-			'message_i18n' : 'KILL_CANT_CONTINUE',
-			'message' : '<b>Error:</b> You must provide an authorization header to perform this operation.'
+			'message' : {'type' 	: 'error', 'content' : '<b>Error:</b> You must provide an authorization header to perform this operation.' },
+			'time' 	: GetHttpTimeString(now())
 			}).withStatus(403);
 	}
 
 	
 
 	// I need a login token and the current one is expired.
-	if (application.config.loginTokenRequired.findNoCase(arguments.matchedURI))	{
+	if (!application.config.token.NotRequired.findNoCase(arguments.matchedURI))	{
 
 		// I need a login token and I don't have it.
 		if (arguments.headers.authorization == "" || listfirst(arguments.headers.authorization, " ") != "bearer")	{
 		return rep({
-			'status' 	: 'error',
-			'time' 	: GetHttpTimeString(now()),
-			'message_i18n' : 'KILL_CANT_CONTINUE',
-			'message' : '<b>Error:</b> You must provide a authorization header that is not blank and starts with Bearer.'
+			'message' : {'type' 	: 'error', 'content' : '<b>Error:</b> You must provide a authorization header that is not blank and starts with Bearer.' },
+			'time' 	: GetHttpTimeString(now())
 			}).withStatus(403);
 		}
 
@@ -69,20 +61,16 @@ function onTaffyRequest(verb, cfc, requestArguments, mimeExt, headers, methodMet
 
 		if (isNull(Login))	{
 			return rep({
-				'status' 	: 'error',
-				'time' 	: GetHttpTimeString(now()),
-				'message_i18n' : 'KILL_CANT_CONTINUE',
-				'message' : '<b>Error:</b> You must provide a authorization that is valid.'
+				'message' : {'type' 	: 'error', 'content' : '<b>Error:</b> You must provide a authorization that is valid.' },
+				'time' 	: GetHttpTimeString(now())
 				}).withStatus(401);
 		}
 
 		// comparing my minutes
-		if (Login.getTokenCreateDate().add("n", application.config.TokenExpiration).compare(now(), "n") < 0 )	{
+		if (Login.getTokenCreateDate().add("n", application.config.Token.Expiration).compare(now(), "n") < 0 )	{
 			return rep({
-				'status' 	: 'error',
-				'time' 	: GetHttpTimeString(now()),
-				'message_i18n' : 'KILL_CANT_CONTINUE',
-				'message' : '<b>Error:</b> Your token has expired. Login again.'
+				'message' : {'type' 	: 'error', 'content' : '<b>Error:</b> Your token has expired. Login again.'},
+				'time' 	: GetHttpTimeString(now())
 				}).withStatus(403);
 		}
 	}

@@ -77,8 +77,8 @@ new Vue({
 
 		prelogin : function() {
 			http
-				.get("login/captcha")
-				.then(res => {this.captcha_image = res.data.captcha_image, this.captcha_hash = res.data.captcha_hash})
+				.get("login/captcha&complexity=medium")
+				.then(res => {this.captcha_image = res.data.data.captcha_image, this.captcha_hash = res.data.data.captcha_hash})
 				.catch(function (error) { console.log(error); })
 			;
 		},
