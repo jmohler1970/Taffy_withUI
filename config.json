@@ -1,6 +1,9 @@
 {
 	"apikey" 			: "hawkfeedflaw",
-	"CAPTCHA" 		: "SchrodingersCatCopenhagenInterpretation",
+	"CAPTCHA" 		: {
+		"slices" : [2,3,2],
+		"data" : "SchrodingersCatCopenhagenInterpretation9675283104"
+		},
 	"hash_algorithm" 	: "SHA-384",
 	"loginTokenRequired" : ["/users", "/users/{id}"],
 	"TokenExpiration" : 60

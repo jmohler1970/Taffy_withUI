@@ -13,7 +13,7 @@ new Vue({
 			router		: "welcome", // not a real router
 			messages 		: [{"type" : "success", "content" : "<b>Success:</b> VueJS is running and is active"}],
 			users 		: [],
-			user 		: {},
+			user 		: {id : ""},
 			userModal		: {"title" : "Add User", "actionLabel" : "Add"},
 
 			email 		: '',
@@ -90,11 +90,11 @@ new Vue({
 		},
 
 		login : function()	{
-			console.log("Doing a login... with" + this.password);
+			console.log("Doing a login with " + this.password);
 			http
 				.post("login", { email : this.email, password : this.password, captcha : this.captcha, captcha_hash : this.captcha_hash })
 				.then(res => (
-					this.messages = res.data.messages,
+					this.messages = [{"type" : res.data.status, "content" : res.data.message}],
 					res.data.loginToken !== "" ? this.login_token = "Bearer " + res.data.loginToken : ""
 					)
 				)
@@ -106,17 +106,31 @@ new Vue({
 
 		// User series
 		preAddUser : function() {
-			this.user = {};
+			this.user = { id : "" };
 			this.router = 'usermodal';
 		},
 
-		addUser : function() {
+		commitUser : function() {
+
+			if(this.user.id === "")	{
+				http
+					.post("users", 
+						{ data	: this.user },
+						{ headers : {"authorization" : this.login_token }}
+					)
+					.then(res => (this.messages = [res.data.message], this.users = res.data.data))
+					;
+
+				return;
+			}
+
+			// update
 			http
-				.post("users", 
+				.put("users/" + id, 
 					{ data	: user },
 					{ headers : {"authorization" : this.login_token }}
 				)
-				.then(res => (this.users = res.data.data))
+				.then(res => (this.messages = [res.data.message], this.users = res.data.data))
 				;
 		},
 
@@ -130,19 +144,17 @@ new Vue({
 
 		preEditUser : function (id)	{
 
-			userModal	= {"title" : "Edit User", "actionLabel" : "Save"};
+			this.userModal	= {"title" : "Edit User", "actionLabel" : "Save"};
 
+			// We expect this.user.id to be populated
 			http
 				.get("users/" + id, { headers : {"authorization" : this.login_token }})
 				.then(res => (this.user = res.data.data))
 				;
 
-			this.showUserModal = true;
+				this.router = 'usermodal';
 		},
 
-		editUser : function ()	{
-
-		},
 
 		listUser : function()	{
 			this.router = 'users';

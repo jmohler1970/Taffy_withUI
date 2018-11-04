@@ -19,8 +19,12 @@ function get(string complexity = "low") {
 	FileDelete(tempFile);
 
 
-	return rep({'status' : 'success', 'time' : GetHttpTimeString(now()),
-		'captcha_hash' : hash(captcha, application.Config.hash_algorithm), 'captcha_image' : myFile
+	return rep({
+		'time' : GetHttpTimeString(now()),
+		'data' : {
+			'captcha_hash' : hash(captcha, application.Config.hash_algorithm),
+			'captcha_image' : myFile
+			}
 		});
 	}
 
@@ -31,6 +35,9 @@ function post(required string captcha, required string captcha_hash) hint="verif
 		return rep({'status' : 'failure', 'time' : GetHttpTimeString(now()) 	}).withStatus(404);
 		}
 
-	return rep({'status' : 'success',  'time' : GetHttpTimeString(now()) });
+	return rep({
+		message : {'type' : 'success', 'content' : 'CAPTCHA is valid' },
+		'time' : GetHttpTimeString(now())
+		});
 	}
 }

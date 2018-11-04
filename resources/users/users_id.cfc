@@ -5,19 +5,22 @@ function get(required numeric id) {
 	var User = EntityLoadByPK("Users", arguments.id);
 
 	if (isNull(User))	{
-		return rep(
-			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : ['<b>Error:</b> Unable to find User.']
+		return rep({
+			'message' : {'type' : 'error', 'content' : '<b>Error:</b> Unable to find User.'},
+			'time' : GetHttpTimeString(now())
 			}).withStatus(401);
 	}
 
 	return rep({
-		"id"			: User.getId(),	
-		"firstName" 	: User.getFirstName(),
-		"lastName" 	: User.getLastName(),
-		"email"		: User.getEmail(),
-		"stateProvinceId" : User.getStateProvince().getId(),
-		"deleted"		: User.getDeleted()
+			'time' : GetHttpTimeString(now()),
+			'data' :	{
+				"id"			: User.getId(),	
+				"firstName" 	: User.getFirstName(),
+				"lastName" 	: User.getLastName(),
+				"email"		: User.getEmail(),
+				"stateProvinceId" : User.getStateProvince().getId(),
+				"deleted"		: User.getDeleted()
+			}
 	});
 }
 
@@ -33,17 +36,17 @@ function put(required numeric id,
 
 	if (isNull(User))	{
 		return rep(
-			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : ['<b>Error:</b> Unable to find User.']
+			'message' : {'status' : 'error', 'content' : '<b>Error:</b> Unable to find User.' },
+			'time' : GetHttpTimeString(now())
 			}).withStatus(401);
 	}
 
 	var StateProvince = entityLoadByPK("StatesProvinces", arguments.stateprovinceid);
 
 	if (isNull(StateProvince))	{
-		return rep(
-			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : ['<b>Error:</b> Invalid State/Province.']
+		return rep({
+			'message' : {'status' : 'error', 'content' : '<b>Error:</b> Invalid State/Province.' },
+			'time' : GetHttpTimeString(now())
 			}).withStatus(401);
 	}
 
@@ -51,9 +54,9 @@ function put(required numeric id,
 	var TestUser = EntityLoad("Users", { email : arguments.email, passhash : hash(arguments.email) });
 
 	if (!isNull(TestUser)) {
-		return rep(
-			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : ['<b>Error:</b> Email / Password combination has already been taken.']
+		return rep({
+			'message' : {'status' : 'error', 'content' : '<b>Error:</b> Email / Password combination has already been taken.' },
+			'time' : GetHttpTimeString(now())
 			}).withStatus(401);
 	}
 
@@ -70,9 +73,9 @@ function put(required numeric id,
 
 	EntitySave(User);
 
-
-	return rep({'status' : 'success','time' : GetHttpTimeString(now()),
-		'messages' : ['<b>Success:</b> User has been saved.']
+	return rep({
+		'message' : {'type' : 'success', 'message' : '<b>Success:</b> User has been saved.'},
+		'time' : GetHttpTimeString(now())
 		}).withStatus(201);
 }
 
@@ -89,8 +92,9 @@ function delete(required numeric id){
 		User.setDeleted(true)
 		);
 
-	return rep({'status' : 'success','time' : GetHttpTimeString(now()),
-		'messages' : ['<b>Success:</b> User has been set to deleted.']
+	return rep({
+		'message' : {'type' : 'success', 'message' : '<b>Success:</b> User has been deleted.'},
+		'time' : GetHttpTimeString(now())
 		});
 
 	}

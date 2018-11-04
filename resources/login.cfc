@@ -21,9 +21,13 @@ function post(required string email, required string password, required string c
 	*/
 
 	if(isNull(User))	{
-		return rep(
-			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : ['<b>Error:</b> Email/Password is not valid. There were #User.len()# matches']
+		return rep({
+			'message' : {
+				'status' : 'error',
+				'message' : '<b>Error:</b> Email/Password is not valid. There were #User.len()# matches'
+			},
+			'time' : GetHttpTimeString(now())
+			
 			}).withStatus(401);
 		}
 
@@ -33,7 +37,14 @@ function post(required string email, required string password, required string c
 		.setTokenCreateDate(now());
 	EntitySave(User);
 
-	return rep({'status' : 'success', messages : '<b>Success:</b> You have logged in.',  "loginToken" : loginToken });
+	return rep({
+		'message' : {
+			'status' : 'success', 
+			'message' : '<b>Success:</b> You have logged in.'
+			},
+		'time' : GetHttpTimeString(now()),
+		'data' : loginToken
+		});
 	}
 
 }

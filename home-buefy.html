@@ -6,7 +6,7 @@
 	<title>Taffy for REST</title>
 
 	<link rel="stylesheet" href="https://unpkg.com/buefy@0.7.0/dist/buefy.min.css">
-	<link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css">
+	<link rel="stylesheet" href="https://cdn.materialdesignicons.com/3.0.39/css/materialdesignicons.min.css">
 
 	<script src="https://unpkg.com/vue@2.5.17"></script>
 	<script src="https://unpkg.com/buefy@0.7.0"></script>
@@ -82,7 +82,8 @@
 				<div class="column is-one-quarter">
 				</div>
 				<div class="column is-one-half">
-					<b-notification v-for="message in messages" :type="('is-' + message.type)" has-icon>
+					{{messages}}
+					<b-notification v-for="(message, key) in messages" :type="('is-' + message.type)" has-icon>
 						<span v-html="message.content"></span>
 					</b-notification>
 				</div>
@@ -217,8 +218,8 @@
 				<b-table-column field="modified">
 
 					<div class="buttons has-addons">
-						<button type="button" class="button">Edit</button>
-						<button type="button" class="button is-danger is-selected"><b-icon icon="trash-can"></b-icon></button>
+						<button type="button" class="button" @click="preEditUser(props.row.id)">Edit</button>
+						<button type="button" class="button is-danger is-selected"><b-icon type="is-light" icon="trash-can"></b-icon></button>
 				   </div>
 
 					{{ props.row.deleted }}
@@ -241,7 +242,7 @@
 					<div class="card">
 						<header class="card-header has-background-info">
 							<p class="card-header-title has-text-white">
-								{{userModal.title}}
+								{{userModal.title}} :: {{user.id}}
 							</p>
 						</header>
 
@@ -278,7 +279,7 @@
 							</b-field>
 
 							<button type="button" class="button" @click="router = 'users'">Cancel</button>
-							<button type="button" class="button is-primary  is-pulled-right">{{userModal.actionLabel}}</button>
+							<button type="button" class="button is-info is-pulled-right" @click="commitUser">{{userModal.actionLabel}}</button>
 						</div><!--/ card content-->
 					</div><!--/ card -->
 				</div>

@@ -1,4 +1,3 @@
-<cfscript>
 component extends="taffy.core.resource" taffy_uri="/users" {
 
 function get(string stateprovinceid = ""){
@@ -17,7 +16,6 @@ function get(string stateprovinceid = ""){
 			});
 		}
 	return rep({
-		'status' : 'success',
 		'time' : GetHttpTimeString(now()),
 		'data' : Result
 		});
@@ -35,25 +33,25 @@ function post(
 	var StateProvince = entityLoadByPK("StatesProvinces", arguments.stateprovinceid);
 
 	if (isNull(StateProvince)) {
-		return rep(
-			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : ['<b>Error:</b> Invalid State/Province.']
+		return rep({
+			'message' : {'type' : 'error', 'content' : '<b>Error:</b> Invalid State/Province.'},
+			'time' : GetHttpTimeString(now())
 			}).withStatus(401);
 		}
 
 	if (arguments.password == "") {
-		return rep(
-			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : ['<b>Error:</b> Password is required and must not be blank.']
+		return rep({
+			'message' : {'type' : 'error', 'content' : '<b>Error:</b> Password is required and must not be blank.'},
+			'time' : GetHttpTimeString(now())
 			}).withStatus(401);
 		}
 
 	var TestUser = EntityLoad("Users", { email : arguments.email, passhash : hash(arguments.email, application.Config.hash_algorithm) });
 
 	if (!isNull(TestUser)) {
-		return rep(
-			{'status' : 'error','time' : GetHttpTimeString(now()),
-			'messages' : ['<b>Error:</b> Email / Password combination has already been taken.']
+		return rep({
+			message : {'type' : 'error', 'content' : '<b>Error:</b> Email / Password combination has already been taken.'},
+			'time' : GetHttpTimeString(now())
 			}).withStatus(401);
 		}
 
@@ -68,10 +66,11 @@ function post(
 	EntitySave(User);
 	ORMFlush();
 
-	return rep({'status' : 'success','time' : GetHttpTimeString(now()),
-		'messages' : '<b>Success:</b> User has been created.'
+	return rep({
+		'message' : {'type' : 'success', 'content' : '<b>Success:</b> User has been created.'},
+		'time' : GetHttpTimeString(now())
 		});
 	}
 
 }
-</cfscript>
+

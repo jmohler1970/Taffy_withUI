@@ -5,10 +5,11 @@ This code covers
 
 * Taffy for REST: Part 4 Access Tokens with some real simple authentication
 * Taffy for REST: Part 5 CAPTCHA
-* Taffy for REST: Part 6 VueJS
-
+* Taffy for REST: Part 6 VueJS + Bulma
+* Taffy for REST: Part 6 VueJS + Bootstrap
 
 # For part 6
+
 
 Change server.json to:
 
@@ -71,6 +72,9 @@ This is a brand new file. Let's take a look at it
 	"tokenExpiration" 	: 60
 }
 ```
+
+
+
 ## First we have the apikey
 APIkey provides our first round of security. It must be sent over with any and every request. It is static; it never changes. This does not provide security. It is just there to make sure the real dumb hackers can't do anything. This is a string that will be on your HTML file. It can be read and found out.
 
