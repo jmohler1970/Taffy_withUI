@@ -10,6 +10,8 @@ new Vue({
 
 	data () {
 		return {
+			statesprovinces : [],
+
 			router		: "welcome", // not a real router
 			messages 		: [{"type" : "success", "content" : "<b>Success:</b> VueJS is running and is active"}],
 			users 		: [],
@@ -64,6 +66,14 @@ new Vue({
 	},
 
 	mounted(){
+
+		http
+			.get("statesprovinces")
+			.then(res => {this.statesprovinces = res.data.data})
+			.catch(function (error) { console.log(error); })
+		;
+
+
 		this.prelogin();
 	},
 
@@ -94,8 +104,9 @@ new Vue({
 			http
 				.post("login", { email : this.email, password : this.password, captcha : this.captcha, captcha_hash : this.captcha_hash })
 				.then(res => (
-					this.messages = [{"type" : res.data.status, "content" : res.data.message}],
-					res.data.loginToken !== "" ? this.login_token = "Bearer " + res.data.loginToken : ""
+					this.messages = [res.data.message],
+					res.data.data !== "" ? this.login_token = "Bearer " + res.data.data : "",
+					res.data.data !== "" ? this.router = "landing" : this.router = "prelogin"
 					)
 				)
 				.catch(function (error) { console.log(error.response); })
@@ -114,8 +125,14 @@ new Vue({
 
 			if(this.user.id === "")	{
 				http
-					.post("users", 
-						{ data	: this.user },
+					.post("users", {
+						"firstName"	: this.user.firstName 	,
+						"lastName"	: this.user.lastName 	,
+						"stateProvinceId" : this.user.stateProvinceId,
+						"email"		: this.user.email 		,
+						"password"	: this.user.password 
+						},
+
 						{ headers : {"authorization" : this.login_token }}
 					)
 					.then(res => (this.messages = [res.data.message], this.users = res.data.data))
@@ -126,8 +143,13 @@ new Vue({
 
 			// update
 			http
-				.put("users/" + id, 
-					{ data	: user },
+				.put("users/" + this.user.id, {
+					"firstName"	: this.user.firstName 	,
+					"lastName"	: this.user.lastName 	,
+					"stateProvinceId" : this.user.stateProvinceId,
+					"email"		: this.user.email 		,
+					"password"	: this.user.password 
+					},
 					{ headers : {"authorization" : this.login_token }}
 				)
 				.then(res => (this.messages = [res.data.message], this.users = res.data.data))
@@ -137,7 +159,7 @@ new Vue({
 
 		delUser : function (id) {
 			http
-				.delete("users/" + id, { headers : {"authorization" : this.login_token }})
+				.delete("users/" + this.user.id, { headers : {"authorization" : this.login_token }})
 				.then(res => (this.users = res.data.data))
 				;
 		},
@@ -145,6 +167,7 @@ new Vue({
 		preEditUser : function (id)	{
 
 			this.userModal	= {"title" : "Edit User", "actionLabel" : "Save"};
+
 
 			// We expect this.user.id to be populated
 			http
@@ -158,6 +181,7 @@ new Vue({
 
 		listUser : function()	{
 			this.router = 'users';
+			this.messages = [];
 			console.log("Doing a get User");
 			http
 				.get("users", { headers : {"authorization" : this.login_token }})

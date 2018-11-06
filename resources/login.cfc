@@ -2,7 +2,10 @@ component extends="taffy.core.resource" taffy_uri="/login" {
 
 // make sure this function goes away. It only exists to setup initial user in DB
 function put(required string password)	{
-	return rep({ "passhash" : hash(arguments.password, application.Config.hash_algorithm) });
+	return rep({
+		'message' : { 'type' : 'success' }, 
+		"data" : hash(arguments.password, application.Config.hash_algorithm)
+	});
 }
 
 
@@ -23,8 +26,8 @@ function post(required string email, required string password, required string c
 	if(isNull(User))	{
 		return rep({
 			'message' : {
-				'status' : 'error',
-				'message' : '<b>Error:</b> Email/Password is not valid. There were #User.len()# matches'
+				'type' : 'error',
+				'content' : '<b>Error:</b> Email/Password is not valid. There were #User.len()# matches'
 			},
 			'time' : GetHttpTimeString(now())
 			
@@ -39,8 +42,8 @@ function post(required string email, required string password, required string c
 
 	return rep({
 		'message' : {
-			'status' : 'success', 
-			'message' : '<b>Success:</b> You have logged in.'
+			'type' : 'success', 
+			'content' : '<b>Success:</b> You have logged in.'
 			},
 		'time' : GetHttpTimeString(now()),
 		'data' : loginToken

@@ -6,7 +6,7 @@
 		},
 	"hash_algorithm" 	: "SHA-384",
 	"token" : { 
-		"NotRequired" : ["/login", "/login/captcha"],
+		"NotRequired" : ["/statesprovinces", "/login", "/login/captcha"],
 		"Expiration" : 60
 		}
 }
