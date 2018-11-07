@@ -51,12 +51,13 @@ function put(required numeric id,
 	}
 
 	// I wish there was a way to test passhash in a cleaner way
-	var TestUser = EntityLoad("Users", { email : arguments.email, passhash : hash(arguments.email) });
+	var TestUser = EntityLoad("Users", { email : arguments.email, passhash : hash(arguments.email) }, true);
 
-	if (!isNull(TestUser)) {
+	if (!isNull(TestUser) && TestUser.getID() != arguments.id) {
 		return rep({
 			'message' : {'status' : 'error', 'content' : '<b>Error:</b> Email / Password combination has already been taken.' },
-			'time' : GetHttpTimeString(now())
+			'time' : GetHttpTimeString(now()),
+			'data' : {}
 			}).withStatus(401);
 	}
 

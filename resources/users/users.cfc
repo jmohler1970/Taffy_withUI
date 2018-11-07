@@ -46,12 +46,13 @@ function post(
 			}).withStatus(401);
 		}
 
-	var TestUser = EntityLoad("Users", { email : arguments.email, passhash : hash(arguments.email, application.Config.hash_algorithm) });
+	var TestUser = EntityLoad("Users", { email : arguments.email, passhash : hash(arguments.email, application.Config.hash_algorithm) }, true);
 
 	if (!isNull(TestUser)) {
 		return rep({
-			message : {'type' : 'error', 'content' : '<b>Error:</b> Email / Password combination has already been taken.'},
-			'time' : GetHttpTimeString(now())
+			'message' : {'type' : 'error', 'content' : '<b>Error:</b> Email / Password combination has already been taken.'},
+			'time' : GetHttpTimeString(now()),
+			'data' : {}
 			}).withStatus(401);
 		}
 

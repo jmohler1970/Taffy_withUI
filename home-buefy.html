@@ -188,14 +188,36 @@
 	
 			<div class="columns">
 				<div class="column">
-					<h2>User Manager</h2>
-					<button type="button" @click="listUser" class="button is-light">Users</button>
+					<div class="card">
+						<div class="card-content">
+							<div class="media">
+								<p class="title is-4">User Manager</p>
+							</div>
+							<div class="content">
+								<button type="button" @click="listUser" class="button is-light">Users</button>
+							</div>
+						</div>
+					</div><!--/ card -->
 				</div>
+
 				<div class="column">
-					<h2>Future</h2>
+					<div class="card">
+						<div class="card-content">
+							<div class="media">
+								<p class="title is-4">Future</p>
+							</div>
+						</div>
+					</div><!--/ card -->
 				</div>
+
 				<div class="column">
-						<h2>Future</h2>
+					<div class="card">
+						<div class="card-content">
+							<div class="media">
+								<p class="title is-4">Future</p>
+							</div>
+						</div>
+					</div><!--/ card -->
 				</div>
 			</div>
 		</div>
@@ -208,7 +230,7 @@
 			<div class="columns">
 				<div class="column">
 
-				<button type="button" class="button is-light" @click="preAddUser"><b-icon icon="plus"></b-icon> &nbsp;Add Users</button>
+				<button type="button" class="button is-light" @click="preAddUser"><b-icon icon="plus"></b-icon> &nbsp;Add User</button>
 
 		<b-table :data="users">
 			<template slot-scope="props">
@@ -305,7 +327,7 @@
 								</b-input>
 							</b-field>
 
-							<button type="button" class="button" @click="router = 'users'">Cancel</button>
+							<button type="button" class="button" @click="listUser">Cancel</button>
 							<button type="button" class="button is-info is-pulled-right" @click="commitUser">{{userModal.actionLabel}}</button>
 						</div><!--/ card content-->
 					</div><!--/ card -->
@@ -317,7 +339,8 @@
 		</div><!--/ container -->
 	</section>
 
-	Token: <code>{{login_token}}</code>	Router <code>{{router}}</code>
+
+	<p>Token: <code>{{login_token}}</code>	Router: <code>{{router}}</code></p>
 	<hr />
 
 	<section class="section">
