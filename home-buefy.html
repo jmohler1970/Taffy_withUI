@@ -33,30 +33,27 @@
 	<nav class="navbar is-info" role="navigation" aria-label="main navigation">
 		<div class="navbar-brand">
 			<a class="navbar-item" href="https://taffy.io">
-				Taffy
+				Taffy &nbsp; <b-icon icon="open-in-new"></b-icon>
 			</a>
 
-			<a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+			<a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasic">
 				<span aria-hidden="true" class="has-text-white"></span>
 				<span aria-hidden="true" class="has-text-white"></span>
 				<span aria-hidden="true" class="has-text-white"></span>
 			</a>
 		</div>
 		
-		<div id="navbarBasicExample" class="navbar-menu">
+		<div id="navbarBasic" class="navbar-menu">
 			<div class="navbar-start">
 				<a class="navbar-item" @click="router = 'landing'" v-show="login_token !== ''">
-					Home
+					<b-icon icon="home"></b-icon> &nbsp; Home
 				</a>
 
-			<a class="navbar-item">
-				Github
-			</a>
-			<a class="navbar-item" href="index.cfm">
-				Dashboard
-			</a>
-
+				<a class="navbar-item" href="index.cfm">
+					Dashboard
+				</a>
 			</div>
+
 			<div class="navbar-end">
 				<div class="navbar-item">
 					<button class="button is-info" type="button" @click="listUser" v-if="login_token !== ''" :disabled="router === 'users'">
@@ -73,6 +70,8 @@
 			</div>
 		</div>
 	</nav>
+
+
 
 	<p>&nbsp;</p>
 

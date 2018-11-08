@@ -12,16 +12,16 @@ function put(required string password)	{
 function post(required string email, required string password, required string captcha, required string captcha_hash){
 
 
-	// remove this code once system is up and running
-	var User = entityLoad("Users", {email : arguments.email}, true);
-
-	/*
+	
 	if (hash(arguments.captcha, application.Config.hash_algorithm) != arguments.captcha_hash)	{
-		return rep({'status' : 'failure', 'time' : GetHttpTimeString(now()) 	}).withStatus(404);
+		return rep({
+			"message" : { 'type' : 'error', 'content' : 'CAPTCHA failed' },
+			'time' : GetHttpTimeString(now())
+			}).withStatus(404);
 		}
 
 	var User = entityLoad("Users", {email : arguments.email, passhash = hash(arguments.password, application.Config.hash_algorithm)}, true );
-	*/
+	
 
 	if(isNull(User))	{
 		return rep({

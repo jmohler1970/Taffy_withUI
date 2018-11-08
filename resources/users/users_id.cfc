@@ -75,7 +75,7 @@ function put(required numeric id,
 	EntitySave(User);
 
 	return rep({
-		'message' : {'type' : 'success', 'message' : '<b>Success:</b> User has been saved.'},
+		'message' : {'type' : 'success', 'content' : '<b>Success:</b> User has been saved.'},
 		'time' : GetHttpTimeString(now())
 		}).withStatus(201);
 }
