@@ -3,10 +3,10 @@
 
 This code covers
 
-* Taffy for REST: Part 4 Access Tokens with some real simple authentication
-* Taffy for REST: Part 5 CAPTCHA
-* Taffy for REST: Part 6 VueJS + Bulma
-* Taffy for REST: Part 6 VueJS + Bootstrap
+* Taffy for REST: Part 5 Access Tokens with some real simple authentication
+* Taffy for REST: Part 6 CAPTCHA
+* Taffy for REST: Part 7 VueJS + Bulma
+* Taffy for REST: Part 8 VueJS + Bootstrap
 
 # For part 6
 
@@ -93,4 +93,7 @@ This is how long a login a token is good for in minutes.
 All kinds of things to support authentication and authorization. One of the biggest is that we will be storing some configuration information into `config.json`
 
 
+# Resources
+
+- https://stackoverflow.com/tags/api-key/info
 
