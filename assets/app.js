@@ -16,6 +16,12 @@ new Vue({
 			messages 		: [{"type" : "success", "content" : "<b>Success:</b> VueJS is running and is active"}],
 			users 		: [],
 			user 		: {id : ""},
+
+			fields		: [ // bootstrap only
+				"id", "firstName", "lastName", "email", "stateProvinceId", "deleted"
+				],
+
+
 			userModal		: {"title" : "Add User", "actionLabel" : "Add"},
 
 			email 		: '',
