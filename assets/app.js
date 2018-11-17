@@ -1,7 +1,7 @@
 const http = axios.create({
 	baseURL: 'index.cfm?endpoint=/',
 	timeout: 1000,
-	headers: {'authorization': 'hawkfeedflaw'}
+	headers: {'apiKey': 'hawkfeedflaw'}
 	});
 
 

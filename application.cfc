@@ -22,16 +22,16 @@ function onApplicationStart() output="false"	{
 
 function onTaffyRequest(verb, cfc, requestArguments, mimeExt, headers, methodMetaData, matchedURI)	{
 
-	if(!arguments.headers.keyExists("authorization")){
+	if(!arguments.headers.keyExists("apiKey")){
 		return rep({
-			'message' : { 'type' 	: 'error', 'content' : '<b>Error:</b> Missing header authorization.' },
+			'message' : { 'type' 	: 'error', 'content' : '<b>Error:</b> Missing header apiKey.' },
 			'time' 	: GetHttpTimeString(now())
 			}).withStatus(401);
 	}
 
-	if (arguments.headers.authorization != application.Config.authorization) {
+	if (arguments.headers.apiKey != application.Config.apiKey) {
 		return rep({
-			'message' : {'type' 	: 'error', 'content' :  '<b>Error:</b> authorization is invalid.'},
+			'message' : {'type' 	: 'error', 'content' :  '<b>Error:</b> apiKey is invalid.'},
 			'time' 	: GetHttpTimeString(now())
 			}).withStatus(401);
 	}
@@ -50,7 +50,7 @@ function onTaffyRequest(verb, cfc, requestArguments, mimeExt, headers, methodMet
 	if (!application.config.token.NotRequired.findNoCase(arguments.matchedURI))	{
 
 		// I need a login token and I don't have it.
-		if (arguments.headers.authorization == "" || listfirst(arguments.headers.authorization, " ") != "Bearer")	{
+		if (arguments.headers.authorization == "" || listfirst(arguments.headers.authorization, " ") != "bearer")	{
 		return rep({
 			'message' : {'type' 	: 'error', 'content' : '<b>Error:</b> You must provide a authorization header that is not blank and starts with Bearer.' },
 			'time' 	: GetHttpTimeString(now())
