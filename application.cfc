@@ -50,7 +50,7 @@ function onTaffyRequest(verb, cfc, requestArguments, mimeExt, headers, methodMet
 	if (!application.config.token.NotRequired.findNoCase(arguments.matchedURI))	{
 
 		// I need a login token and I don't have it.
-		if (arguments.headers.authorization == "" || listfirst(arguments.headers.authorization, " ") != "bearer")	{
+		if (arguments.headers.authorization == "" || listfirst(arguments.headers.authorization, " ") != "Bearer")	{
 		return rep({
 			'message' : {'type' 	: 'error', 'content' : '<b>Error:</b> You must provide a authorization header that is not blank and starts with Bearer.' },
 			'time' 	: GetHttpTimeString(now())
