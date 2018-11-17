@@ -1,7 +1,7 @@
 const http = axios.create({
 	baseURL: 'index.cfm?endpoint=/',
 	timeout: 1000,
-	headers: {'apiKey': 'hawkfeedflaw'}
+	headers: {'authorization': 'hawkfeedflaw'}
 	});
 
 
@@ -93,10 +93,11 @@ new Vue({
 
 		prelogin : function() {
 			http
-				.get("login/captcha&complexity=medium")
+				.get("login/captcha&complexity=low")
 				.then(res => {this.captcha_image = res.data.data.captcha_image, this.captcha_hash = res.data.data.captcha_hash})
 				.catch(function (error) { console.log(error); })
 			;
+			this.router = "prelogin";
 		},
 
 		logout : function()	{

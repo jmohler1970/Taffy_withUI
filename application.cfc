@@ -22,16 +22,16 @@ function onApplicationStart() output="false"	{
 
 function onTaffyRequest(verb, cfc, requestArguments, mimeExt, headers, methodMetaData, matchedURI)	{
 
-	if(!arguments.headers.keyExists("apiKey")){
+	if(!arguments.headers.keyExists("authorization")){
 		return rep({
-			'message' : { 'type' 	: 'error', 'content' : '<b>Error:</b> Missing header apiKey.' },
+			'message' : { 'type' 	: 'error', 'content' : '<b>Error:</b> Missing header authorization.' },
 			'time' 	: GetHttpTimeString(now())
 			}).withStatus(401);
 	}
 
-	if (arguments.headers.apiKey != application.Config.apiKey) {
+	if (arguments.headers.authorization != application.Config.authorization) {
 		return rep({
-			'message' : {'type' 	: 'error', 'content' :  '<b>Error:</b> apiKey is invalid.'},
+			'message' : {'type' 	: 'error', 'content' :  '<b>Error:</b> authorization is invalid.'},
 			'time' 	: GetHttpTimeString(now())
 			}).withStatus(401);
 	}

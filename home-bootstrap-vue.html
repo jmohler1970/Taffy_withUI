@@ -39,7 +39,7 @@
 			<b-navbar-nav class="ml-auto">
 				<b-nav-item @click="listUser" v-if="login_token !== ''" :disabled="router === 'users'">User Manager</b-nav-item>
 				<b-nav-item @click="logout" v-if="login_token !== ''">Logout</b-nav-item>
-				<b-nav-item @click="router = 'prelogin'" v-else>Login</b-nav-item>
+				<b-nav-item @click="prelogin" v-else>Login</b-nav-item>
 			</b-navbar-nav>
 
 		</b-collapse>
@@ -125,7 +125,7 @@
 
 					<b-form-row>
 						<b-col>
-							<b-button id="reload" @click="prelogin"><i class="fas fa-sync"></i></b-button>
+							<b-button @click="prelogin"><i class="fas fa-sync"></i></b-button>
 						</b-col>
 						<b-col>
 							<div class="float-right">

@@ -66,7 +66,7 @@ This is a brand new file. Let's take a look at it
 
 ```
 {
-	"apikey" 			: "hawkfeedflaw",
+	"authorization" 			: "hawkfeedflaw",
 	"hash_algorithm" 	: "SHA-384",
 	"tokenSkipped" 	: ["/login", "/login/captcha"],
 	"tokenExpiration" 	: 60
@@ -75,8 +75,8 @@ This is a brand new file. Let's take a look at it
 
 
 
-## First we have the apikey
-APIkey provides our first round of security. It must be sent over with any and every request. It is static; it never changes. This does not provide security. It is just there to make sure the real dumb hackers can't do anything. This is a string that will be on your HTML file. It can be read and found out.
+## First we have the authorization
+authorization provides our first round of security. It must be sent over with any and every request. It is static; it never changes. This does not provide security. It is just there to make sure the real dumb hackers can't do anything. This is a string that will be on your HTML file. It can be read and found out.
 
 ## hash_algorithm
 We don't save passwords in the clear. We encrypt them. Same goes for CAPTCHA. This is to make sure that even if someone had access to the database, no passwords are compromised.
