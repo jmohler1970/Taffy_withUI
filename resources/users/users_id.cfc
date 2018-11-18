@@ -94,10 +94,10 @@ function delete(required numeric id){
 		);
 
 	return rep({
-		'message' : {'type' : 'success', 'message' : '<b>Success:</b> User has been deleted.'},
-		'time' : GetHttpTimeString(now())
+		'message' : {'type' : 'success', 'content' : '<b>Success:</b> User has been deleted.'},
+		'time' : GetHttpTimeString(now()),
+		'data' : {}
 		});
-
 	}
 
 

@@ -3,7 +3,7 @@
 
 This code covers
 
-* Taffy for REST: Part 5 Access Tokens with some real simple authentication
+* Taffy for REST: Part 5 Access Tokens with some real simple authorization
 * Taffy for REST: Part 6 CAPTCHA
 * Taffy for REST: Part 7 VueJS + Bulma
 * Taffy for REST: Part 8 VueJS + Bootstrap
@@ -38,7 +38,7 @@ None of the command box files have been updated
 
 # Entity Updates
 
-StatesProvinces in now ReadyOnly
+StatesProvinces in now Read Only
 
 Users now has new fields
 
