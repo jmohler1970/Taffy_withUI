@@ -18,7 +18,7 @@ Our state/province data does not seem to have too much of a security concern, bu
 
 What is an APIKey? Let's go over to the StackOverflow definition
 
->
+> An application programming interface key (API key) is a code passed in by computer programs calling an API (application programming interface) to identify the calling program, its developer, or its user to the Web site. API keys are used to track and control how the API is being used, for example to prevent malicious use or abuse of the API (as defined perhaps by terms of service).
 
 That is a good starting point. APIKey is not particular to REST or even the web.
 
@@ -43,7 +43,7 @@ I have updated `application.cfc` with a couple of things. I don't like mixing co
 
 On line 25 to 30, I am checking for thest existance of APIkey. If it is not there, I am return a 401 Error.
 
-O line 32 to 37, I am checking if te string matches. If not return an error.
+O line 32 to 37, I am checking if the string matches. If not return an error.
 
 That's it!
 

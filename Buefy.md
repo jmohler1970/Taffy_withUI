@@ -1,7 +1,7 @@
+# Taffy for REST: Part 8 VueJS + Bulma
 
 
-# Introduction
+I have been at this for a couple of months, so it is really exciting to finally have a functioning application to show.
 
-This code is very similar to the Landing page code. You may want to look at that before looking at this one.
 
 

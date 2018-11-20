@@ -5,10 +5,11 @@ This code covers
 
 * Taffy for REST: Part 5 Access Tokens with some real simple authorization
 * Taffy for REST: Part 6 CAPTCHA
-* Taffy for REST: Part 7 VueJS + Bulma
-* Taffy for REST: Part 8 VueJS + Bootstrap
+* Taffy for REST: Part 7 Login
+* Taffy for REST: Part 8 VueJS + Bulma
+* Taffy for REST: Part 9 VueJS + Bootstrap
 
-# For part 6
+# For part 8
 
 
 Change server.json to:
@@ -22,7 +23,7 @@ Change server.json to:
         "http":{
             "port":8080
         },
-        "welcomeFiles":"home.html"
+        "welcomeFiles":"home-buefy.html"
     }
 }
 
