@@ -81,7 +81,7 @@
 				<div class="column is-one-quarter">
 				</div>
 				<div class="column is-one-half">
-					<b-notification v-for="(message, key) in messages" :type="('is-' + message.type)" has-icon>
+					<b-notification v-for="(message, key) in messages" :type="('is-' + (message.type === 'error' ? 'danger' : message.type))" has-icon>
 						<span v-html="message.content"></span>
 					</b-notification>
 				</div>

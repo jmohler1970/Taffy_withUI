@@ -52,7 +52,7 @@
 		<b-row>
 			<b-col></b-col>
 			<b-col cols="6">
-				<b-alert v-for="(message, key) in messages" :variant="message.type" show dismissible>
+				<b-alert v-for="(message, key) in messages" :variant="(message.type === 'error' ? 'danger' : message.type)" show dismissible>
 					<span v-html="message.content"></span>
 				</b-alert>
 			</b-col>

@@ -111,12 +111,17 @@ new Vue({
 			http
 				.post("login", { email : this.email, password : this.password, captcha : this.captcha, captcha_hash : this.captcha_hash })
 				.then(res => (
-					this.messages = [res.data.message],
-					res.data.data !== "" ? this.login_token = "Bearer " + res.data.data : "",
-					res.data.data !== "" ? this.router = "landing" : this.router = "prelogin"
+					this.messages 		= [res.data.message],
+					this.login_token 	= "Bearer " + res.data.data,
+					this.router 		= "landing"
 					)
 				)
-				.catch(function (error) { console.log(error.response); })
+				.catch(res => (
+					console.log(JSON.stringify(res.response)),
+					this.messages 		= [res.response.data.message],
+					this.login_token 	= "",
+					this.router 		= "prelogin"
+				))
 			;
 
 			this.password = "";
