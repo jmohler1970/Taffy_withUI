@@ -8,30 +8,28 @@ const http = axios.create({
 new Vue({
 	el: '#app',
 
-	data () {
-		return {
-			statesprovinces : [],
 
-			router		: "welcome", // not a real router
-			messages 		: [{"type" : "success", "content" : "<b>Success:</b> VueJS is running and is active"}],
-			users 		: [],
-			user 		: {id : ""},
+	data: {
+		statesprovinces : [],
 
-			fields		: [ // bootstrap only
-				"id", "firstName", "lastName", "email", "stateProvinceId", "deleted"
-				],
+		router		: "welcome", // not a real router
+		messages 		: [{"type" : "success", "content" : "<b>Success:</b> VueJS is running and is active"}],
+		users 		: [],
+		user 		: {id : ""},
 
+		fields		: [ // bootstrap only
+			"id", "firstName", "lastName", "email", "stateProvinceId", "deleted"
+			],
 
-			userModal		: {"title" : "Add User", "actionLabel" : "Add"},
+		userModal		: {"title" : "Add User", "actionLabel" : "Add"},
 
-			email 		: '',
-			password 		: '',
-			captcha_image 	: '',
-			captcha_hash 	: '',
-			captcha 		: '',
+		email 		: '',
+		password 		: '',
+		captcha_image 	: '',
+		captcha_hash 	: '',
+		captcha 		: '',
 
-			login_token	: ''
-		};
+		login_token	: ''
 	},
 
 
@@ -71,20 +69,10 @@ new Vue({
 		}
 	},
 
-	mounted(){
-
-		http
-			.get("statesprovinces")
-			.then(res => {this.statesprovinces = res.data.data})
-			.catch(function (error) { console.log(error); })
-		;
 
 
-		this.prelogin();
-	},
 
-
-	methods :	{
+	methods:	{
 
 		clearMessages : function()	{
 			this.messages = [];
@@ -202,6 +190,17 @@ new Vue({
 			;
 		}
 
-	} // end methods
+	}, // end methods
+
+	mounted(){
+
+		http
+			.get("statesprovinces")
+			.then(res => {this.statesprovinces = res.data.data})
+			.catch(function (error) { console.log(error); })
+		;
+
+		this.prelogin();
+	},
 
 });

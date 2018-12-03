@@ -56,14 +56,24 @@
 
 			<div class="navbar-end">
 				<div class="navbar-item">
-					<button class="button is-info" type="button" @click="listUser" v-if="login_token !== ''" :disabled="router === 'users'">
+					<button class 	= "button is-info" 
+						type 	= "button" 
+						@click	= "listUser" 
+						v-if 	= "login_token !== ''" 
+						:disabled	= "router === 'users'">
 						User Manager
 					</button>
 
-					<button class="button is-info" type="button" @click="logout" v-if="login_token !== ''">
+					<button class 	= "button is-info" 
+						type 	= "button" 
+						@click 	= "logout" 
+						v-if 	= "login_token !== ''">
 						<b>Logout</b>
 					</button>
-					<button class="button is-info" type="button" @click="router = 'prelogin'" v-else>
+					<button class	= "button is-info" 
+						type 	= "button" 
+						@click 	= "router = 'prelogin'" 
+						v-else>
 						Log in
 					</button>
 				</div>

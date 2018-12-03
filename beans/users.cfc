@@ -9,7 +9,7 @@ property name="lastname" 		default = '';
 property name="email";
 property name="passhash";
 property name="loginToken";
-property name="TokenCreateDate";
+property name="tokenCreateDate";
 
 property name="deleted"			default = 0;
 
@@ -24,7 +24,4 @@ boolean function validatePassword(required string password)	{
 
 	return this.getPasshash() == hash(arguments.password, application.Config.hash_algorithm);
 	}
-
-
 }
-

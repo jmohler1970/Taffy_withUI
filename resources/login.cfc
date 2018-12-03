@@ -21,13 +21,11 @@ function post(required string email, required string password, required string c
 			}).withStatus(404);
 		}
 
-	variables.password = arguments.password; // wish I didn't have to do this
 	// hoping for an array with one element
 	var User = entityLoad("Users", {email : arguments.email}).filter(
 		function(item){
-			return item.validatePassword(variables.password);
+			return item.validatePassword(password);
 		});
-	variables.password = "";
 
 
 	if(isNull(User) || arrayIsEmpty(User))	{
@@ -60,4 +58,3 @@ function post(required string email, required string password, required string c
 
 }
 
-//Oct 29 loginToken: 9CC770B2-A62A-BEF0-7132C353C8483865
