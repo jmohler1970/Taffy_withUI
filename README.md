@@ -3,11 +3,12 @@
 
 This code covers
 
-* Taffy for REST: Part 5 Access Tokens with some real simple authorization
-* Taffy for REST: Part 6 CAPTCHA
-* Taffy for REST: Part 7 Login
-* Taffy for REST: Part 8 VueJS + Bulma
-* Taffy for REST: Part 9 VueJS + Bootstrap
+* Taffy for REST - Part 5: Access Tokens with some real simple authorization
+* Taffy for REST - Part 6: CAPTCHA
+* Taffy for REST - Part 7: Login
+* Taffy for REST - Part 8: Buefy = VueJS + Bulma
+* Taffy for REST - Part 9: Buefy flavored HTML
+* Taffy for REST - Part 10: VueJS + Bootstrap
 
 # For part 8
 

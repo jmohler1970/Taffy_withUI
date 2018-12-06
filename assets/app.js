@@ -73,11 +73,9 @@ new Vue({
 
 
 	methods:	{
-
 		clearMessages : function()	{
 			this.messages = [];
 		},
-
 
 		prelogin : function() {
 			http

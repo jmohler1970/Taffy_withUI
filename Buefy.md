@@ -1,17 +1,16 @@
-# Taffy for REST: Part 8 VueJS + Bulma = Buefy
+# Taffy for REST: Part 8 Buefy = VueJS + Bulma
 
-I have been at this for a couple of months, so it is really exciting to finally have a functioning application to show. Everything up until now has been changes to database, changes to beans, changes to resources, changes to `application.cfc`. 
+We have been at this for a couple of months, so it is really exciting to finally have a functioning application to show. Everything up until now has been changes to database, changes to beans, changes to resources, changes to `application.cfc`. 
 
-
-But there has been no UI to speak of; That was deliberate. There is a wall between front end and back end developement. This has some consequences. We are not going to be asking ColdFusion to generate HTML. It is just going to be delivering data. The HTML has to be generated via Javascript on the frontend. There are a lot of mature technologies that do that. The application is going to be using VueJS.
+But there has been no UI to speak of; that was deliberate. There is a wall between front end and back end development. This has some consequences. We are not going to be asking ColdFusion to generate HTML. It is just going to be delivering data. The HTML has to be generated via Javascript on the frontend. There are a lot of mature technologies that do that. The application is going to be using VueJS.
 
 # So what is a VueJS?
 
 Let's what Stackoverflow thinks:
 
-> Vue.js is an open-source, progressive Javascript framework for building user interfaces that aim to be incrementally adoptable. ...
+> VueJS is an open-source, progressive Javascript framework for building user interfaces that aim to be incrementally adoptable. ...
 
-> Vue.js provides two-way data binding, computed properties, CSS bindings, HTML templates, partial rendering and can be extended with components, mixins, and plugins.
+> VueJS provides two-way data binding, computed properties, CSS bindings, HTML templates, partial rendering and can be extended with components, mixins, and plugins.
 
 That is a lot of stuff. My emphasis the versatity of VueJS. You can take plain HTML and make it much much smarter than you could with tinkering it with, say, jQuery. You can also use CDNs. You don't have to write or rewrite you applications like Angular would require.
 
@@ -42,7 +41,6 @@ When data is updated, computed functions are automaticly updated as necessary. V
 `methods:`
 
 Sometimes you just need functions. Typically these will be tied to click events, but they don't have too. You can type them to lifecycle events
-
 
 `mounted()`
 
@@ -101,27 +99,73 @@ All being mixed in. It is a different world from ColdFusion + HTML mix. But conc
 
 # Looking at /assets/app.js
 
-I have done some other videos on how to interpret our code. I will put links below. I am only going to talk about the highlights.
+I have done some other videos on how to understand VueJS code. I will put links below. I am only going to talk about the highlights.
+
+Lines 1 though 5 is where we setup our Axios connection. We will be using for all CRUD operations. You will not that apiKey is hardcoded in there. This makes it not su much of a secret. Like I have said in previous videos, this does not provide a lot of security, but it does keep our endpoint from being wide open.
+
+Lines 8 and 9, is where we start doing VueJS code. We use this to attach VueJS to the HTML.
+
+Line 12 through 32: takes care of all of our data in the Single Page Application or SPA. There are good parts to this approach, and not so good parts
+
+## Good parts
+
+- Everything we need to know is in one place.
+
+## Not so good parts
+
+- router holds the application state. Routers in a proper MVC application are much more sophisticated. This is scraping the bottom of the barrel on routers.
+- user infomation, login state, and messages are all mixed in together. It would be better if we could isolates these. This begs for a modular approach
+
+## Let's step back for a second.
+
+I have been spending lots of time going over building the REST API with Taffy. For a while now I have been wanted to show a functioning application. After all what is the REST API stuff supposed to be good for? You should consider this to be a minimal User Interface to demonstrate what Taffy can do. We are no where near the end of the road with all this.
+
+I also know that not everyone if familiar with VueJS. I suspect that only small number of people watching this video have worked with VueJS. I don't want to bring in VueJS' entire family of technologies, yet. Let's get back to the code...
+
+## Back to the Code... Computed values er, functions
+
+When people ask me, what do I like about VueJS, the first thing that I bring up is that it can be brough in an HTML page  AND be used with NPM.
+
+The second thing that I bring up, is computed values. Or are they computed functions. Computed works some serious magic. Computed pays attention to all the data. Whenever data changes it automatically changes its corresponding value. Our sample here has six different functions. They are never explicity called, but they are all automatically called.
+
+If all that wasn't cool enough, we used them as if they were values. These are all used for login validation message. I show these messages the same way I would show data.
 
 
+## Methods
+
+Unlike computed, we call methods explicity. I have three functions here; `prelogin` is the most interesting.
+
+Line 81 uses the variable http. That came from Axios. It is not built into Javascript or VueJS.
+Line 82 uses the GET verb to get the CAPTCHA image. If you watched the video on CAPTCHA, you know that I am return a base64 representation of the CAPTCHA image. As far as VueJS is concerned, it is just a string that gets assigned.
+
+### Committing a user
+
+One of the things that I like about VueJS, is that it does not have a lot of extra syntax. This block of code is responsible for saving a new user. Lines 27 through 31 does some mapping of variables, but not a lot else is needed.
+
+When I was first learning this, the asyncronous aspect challenged me. When I look at Line 36 I see `.then`. What is a `.then`. There is no simple answer, so I will give the long answer.
+
+One line 26, when we did the `.post` we also sent the processing in a separate thread. We really can't send anything back on line 39 in the `return` statement, because there is no data to return. `.then` will process after `.post`. In other words, `return` won't want for the `.post` to be done. `.then` will wait.
+
+Inside of the `.then`, we have a function.  I still need to look twice when I see a function without a name or a function being assigned to a variable. I have to look at least three times when I see an arrow function. Once I got past then new syntax, it actually kind of clean. I could have created a normal nameless function inside the `.then`, but an arrow function is less typing. We use commas instead of semicolons inside of arrow functions. We user parenthesis instead of brackets to wrap the operations. Aside from all that, arrow functions are just functions. In this case, it contains the operations to be done after `.post` has completed what it does.
 
 
+### ListUser
+
+This is where we show all the users
+
+On line 186, I used an error function to load all the users into `this.users`
+On line 187, I switched approaches. I am not using an arrow function. I should have continued with the arrow functions. There is no need to change.
 
 
+## Mounted
 
-
-
-
-
-
-
-
-
-
+Mounted is one of my favorite parts of the VueJS lifecycle. It is vaguely similar to `document ready` in jQuery. By the time we get here all potential compilation problems have not happened.
 
 
 
 # Resources
+
+- https://coldfusion.adobe.com/2018/11/vuejs-for-coldfusion-programmers-first-10-minutes/
 
 - https://vuejs.org/v2/guide/installation.html
 
