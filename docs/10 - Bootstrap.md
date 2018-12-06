@@ -1,4 +1,4 @@
-# Taffy for REST: Part 9 VueJS + Bootstrap
+# Taffy for REST: Part 10 VueJS + Bootstrap
 
 After working with Buefy and Bulma and some of what they have to offer, I decided to make a bit of a U-turn. I was drawn to Bulma because of its CSS only approach, but Javascript got added right back in via VuaJS and Buefy. I looked as some of the big picture items, and this is what I saw
 
