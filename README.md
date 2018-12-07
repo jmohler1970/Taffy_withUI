@@ -35,11 +35,7 @@ Change server.json to:
 }
 ````
 
-For part 10, change welcome file to `home-bootstrap-vue.html`
+For part 10, change `welcomeFiles` to `home-bootstrap-vue.html`
 
 
-
-# Resources
-
-- https://stackoverflow.com/tags/api-key/info
 

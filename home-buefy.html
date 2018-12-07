@@ -91,7 +91,9 @@
 				<div class="column is-one-quarter">
 				</div>
 				<div class="column is-one-half">
-					<b-notification v-for="(message, key) in messages" :type="('is-' + (message.type === 'error' ? 'danger' : message.type))" has-icon>
+					<b-notification has-icon
+						v-for="(message, key) in messages" 
+						:type="('is-' + (message.type === 'error' ? 'danger' : message.type))">
 						<span v-html="message.content"></span>
 					</b-notification>
 				</div>
@@ -102,30 +104,28 @@
 	</section>
 
 	<section v-show="router === 'welcome'">
-
 		<div class="container">
-
 			<div class="columns">
-				<div class="column is-one-quarter">
-				</div>
+				<div class="column is-one-quarter"></div>
 
 				<div class="column is-one-half">
 
 					<h1 class="is-size-3">Welcome</h1>
 
 					<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 					</p>
 
 					<br />
-					<button class="button is-info" type="button" @click="router = 'prelogin'">
+					<button class="button is-info" 
+						type="button" 
+						@click="router = 'prelogin'">
 						Log in
 					</button>
 				</div>
 
-				<div class="column is-one-quarter">
-				</div>
-			</div>
+				<div class="column is-one-quarter"></div>
+			</div><!--/ end columns -->
 		</div>
 	</section>
 
@@ -146,7 +146,9 @@
 						</header>
 
 						<div class="card-content">
-							<b-field label="Email" :message="invalidEmail" :type="stateEmail">
+							<b-field label="Email" 
+								:message="invalidEmail" 
+								:type="stateEmail">
 								<b-input
 									v-model.trim="email"
 									type="email"
@@ -155,7 +157,8 @@
 								</b-input>
 							</b-field>
 
-							<b-field label="Password" :message="invalidPassword">
+							<b-field label="Password" 
+								:message="invalidPassword">
 								<b-input
 									v-model.trim="password"
 									type="password"
@@ -167,7 +170,6 @@
 
 							<img :src="captcha_image" style="height : 100px;" />
 
-
 							<b-field label="CAPTCHA" :message="invalidCaptcha">	
 								<b-input
 									v-model.trim="captcha"
@@ -175,11 +177,17 @@
 									>
 								</b-input>
 							</b-field>
-	
-	
-							<button type="button" id="reload" @click="prelogin" class="button is-light"><b-icon icon="refresh"></b-icon></button>
 
-							<button type="button" @click="login" class="button is-info is-pulled-right"	:disabled="!stateEmail && !stateCaptcha">Login</button>
+							<button type="button" id="reload" class="button is-light"
+								@click="prelogin">
+								<b-icon icon="refresh"></b-icon>
+							</button>
+
+							<button type="button" class="button is-info is-pulled-right"
+								@click="login"	
+								:disabled="!stateEmail && !stateCaptcha">
+									Login
+							</button>
 						</div><!--/ card content -->
 					</div><!--/ card -->
 				</div><!--/ column-->
@@ -239,7 +247,10 @@
 			<div class="columns">
 				<div class="column">
 
-				<button type="button" class="button is-light" @click="preAddUser"><b-icon icon="plus"></b-icon> &nbsp;Add User</button>
+				<button type="button" class="button is-light" 
+					@click="preAddUser">
+					<b-icon icon="plus"></b-icon> &nbsp;Add User
+				</button>
 
 		<b-table :data="users">
 			<template slot-scope="props">
