@@ -98,6 +98,37 @@ On the bottom of the page, I am doing a dump of the login token and router varia
 If I were to set it to welcome, then the welcome page content will be shown.
 
 
+# Navigation
+
+Line 36: `<b-icon>` custom tag. FYI, you can't use shortcut tags on these
+
+Line 48: Is interesting. At first it looks like a normal `<a>`, but it does not have an `href`. It will respond to clicks via `@click`. It will not navigate way to any other page. It will just set the `router` variable. VueJS will figure out all the necessary changes to the page
+
+If we go farther down on the nav bar code, we start seeing some common patterns.
+
+We have three buttons of `type=button`
+All three buttons have `@click` attributes. But they are not the same. We have `listUser` (a method), `logout`,  method
+
+## Going a little farther down in the code for navigation
+
+I am going to go way off topic. If you ever watch professional sports, you can atheletes doing the same thing over and over with ease. A lot of that is muscle memory. They have done things so many times, they don't even have think about it. It is just automatic.
+
+I think programming has some of the same skills. Have you ever shown ColdFusion to someone who does not program in ColdFusion. It just does not register with them. They see `<cfif>` and `<cfquery>` and nothing registers. `<cfscript>` and `<script>` blend too. It is not that they can't understand it, they just don't have the eyeball memory of someone who has looked at it over and over.
+
+In this sliver code, I have `@` attributes, `:` attributes, and `v-` attributes. The syntax highlighting isn't that good, but they start to pop if you look at them enough. Let's see...
+
+On 61, I have a function call, but without params
+On 62, The User manager button is only going to be shown some times
+On 63, I am doing a string compare. The rest seem about the same
+On 75, I am setting a variable to having a value.
+
+I just did this block of code with buttons. The previous block of code used `<a>` tags. What is the difference? There is none, because I am intercepting very early. These are buttons that are not in a form, but that does not matter because I am interepting the clicks long before any kind of form would even run. These buttons are triggering `GET` or `POST`. We would have to look at `assets/app.js` to know what is going on.
+
+
+
+
+
+
 # Login 
 
 When the router is set to `prelogin` we get the login form
@@ -112,4 +143,4 @@ Some Logic around the login button
 - https://vuejs.org/v2/guide/events.html
 
 
-
+- https://github.com/jmohler1970/Taffy_withUI
