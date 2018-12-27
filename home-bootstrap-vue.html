@@ -7,9 +7,9 @@
 
 	<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css"/>
 	<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
-	<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"/>
+	<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"/>
 
-	<script src="https://unpkg.com/vue@2.5.17"></script>
+	<script src="https://unpkg.com/vue@2.5.21"></script>
 	<script src="https://unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
 	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
 	<script src="https://unpkg.com/axios@0.18.0/dist/axios.min.js"></script>
@@ -32,7 +32,8 @@
 		<b-collapse is-nav id="nav_collapse">
 
 			<b-navbar-nav>
-				<b-nav-item href="#" @click="router = 'landing'" v-show="login_token !== ''">Home</b-nav-item>
+				<b-nav-item href="#" 
+					@click="router = 'landing'" v-if="login_token !== ''">Home</b-nav-item>
 				<b-nav-item href="index.cfm">Dashboard</b-nav-item>
 			</b-navbar-nav>
 
@@ -89,38 +90,19 @@
 		<b-row>
 			<b-col></b-col>
 			<b-col>
-	
 				<b-card header="Login">
-
 					<b-form-group label="Email" :invalid-feedback="invalidEmail" :type="stateEmail">
-						<b-form-input
-							v-model.trim="email"
-							type="email"
-							id="email"
-							>
-						</b-form-input>
+						<b-form-input v-model.trim="email" type="email"></b-form-input>
 					</b-form-group>
-
 
 					<b-form-group label="Password" :invalid-feedback="invalidPassword">
-						<b-form-input
-							v-model.trim="password"
-							type="password"
-							id="password"
-							>
-						</b-form-input>
+						<b-form-input v-model.trim="password" type="password"></b-form-input>
 					</b-form-group>
-
 
 					<img :src="captcha_image" style="height : 100px;" class="rounded" />
 
-
 					<b-form-group label="CAPTCHA" :message="invalidCaptcha">	
-						<b-form-input
-							v-model.trim="captcha"
-							id="captcha"
-							>
-						</b-form-input>
+						<b-form-input v-model.trim="captcha"></b-form-input>
 					</b-form-group>
 
 					<b-form-row>
@@ -216,33 +198,23 @@
 				<b-card :header="userModal.title">
 
 					<b-form-group label="First Name">
-						<b-form-input
-							type="text"
-							v-model.trim="user.firstName"
-							required>
+						<b-form-input type="text" v-model.trim="user.firstName" required>
 						</b-form-input>
 					</b-form-group>
 
 					<b-form-group label="Last Name">
-						<b-form-input
-							type="text"
-							v-model.trim="user.lastName"
-							required>
+						<b-form-input type="text" v-model.trim="user.lastName" required>
 						</b-form-input>
 					</b-form-group>
 
 					<b-form-group label="Email">
-						<b-form-input
-							type="email"
-							v-model.trim="user.email"
-							required>
+						<b-form-input type="email" v-model.trim="user.email" required>
 						</b-form-input>
 					</b-form-group>
 
 					<b-form-group label="State/Province">
 						<b-form-select v-model="user.stateProvinceId" class="mb-3">
-							<option
-								v-for="option in statesprovinces"
+							<option 	v-for="option in statesprovinces"
 									:value="option.id"
 									:key="option.id"
 									>
@@ -326,7 +298,6 @@
 <p>&nbsp;</p>
 
 <script src="assets/app.js"></script>
-
 
 </body>
 </html>
