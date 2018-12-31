@@ -4,7 +4,7 @@
 
 ## Taffy for REST: Part 10 VueJS + Bootstrap
 
-After working with Buefy and Bulma and experiencing some of what they have to offer, I decided to make a bit of a U-turn. I was drawn to Bulma because of its CSS only approach, but Javascript got added right back in via VuaJS and Buefy. I don't see the CSS only approach as being particularly powerful. So I wandered back to Bootstrap
+After working with Buefy and Bulma and experiencing some of what they have to offer, I decided to make a bit of a U-turn. I was drawn to Bulma because of its CSS only approach, but Javascript got added right back in via VueJS and Buefy. I don't see the CSS only approach as being particularly powerful. So I wandered back to Bootstrap
 
 A similar techonology is Bootstrap Vue, Bootstrap plus Vue, and this is what I saw
 
@@ -19,17 +19,17 @@ A similar techonology is Bootstrap Vue, Bootstrap plus Vue, and this is what I s
 
 In order to use Bootstrap Vue, I did not have to change `assets/app.js` nor did I have to change my Taffy powered web services. Migration was very simple.
 
-With that,Bootstrap Vue it shall be.
+With that, Bootstrap Vue it shall be.
 
 # Some Cool lines of code
 
 These sample projects have gotten so large, I don't want to cover every line of code, just the interesting stuff. The thing that I don't like about Bootstrap is how it uses `<div>` s. It is not unheard of to see `<div>`s nested eight layers deep. You end up having a bunch of `</div>`s, but there is no real clear way of knowing what exactly it ended. Buefy did a little to fix this, but Bootstrap Vue goes after that problem with a vengance. I get all the way down to line 47 and I didn't have any `</div>`s. This is already more readable.
 
-In the container where we take care of the alerts, all the custom tags are identical to the Boostrap class names, so it is easy to tie the two concepts together
+In the container where we take care of the alerts, all the custom tags are identical to the Bootstrap class names, so it is easy to tie the two concepts together
 
 On line 95, I cleaned up how I handle form controls. There is no name, and no id. I am just tying the two together with `v-model.trim="email"`
 
-The `b-button` on does not even any overrides. Oddly enough, Buefy abstracts icons, whereas Bootstrap Vue does not. I I wanted to, I could add a `:class` to the `<i>` tag if I needed it to be more interactive, but it is fine as it is. 
+The `b-button` on does not even any overrides. Oddly enough, Buefy abstracts icons, whereas Bootstrap Vue does not. If I wanted to, I could add a `:class` to the `<i>` tag if I needed it to be more interactive, but it is fine as it is. 
 
 # Going off on a Tangent
 
@@ -69,7 +69,7 @@ We are in a different place now. We **can** expect browsers to pull in a lot of 
 
 - https://bootstrap-vue.js.org/
 - https://www.bootswatch.com
-
+- https://github.com/jmohler1970/Taffy_withUI
 
 
 
